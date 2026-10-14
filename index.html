@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>인사혁신처 회복탄력성 자가진단 솔루션</title>
+  <!-- 고운 돋움 웹폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FFFDF9;
+      --card-bg: #FFFFFF;
+      --primary-peach: #FF8A80;
+      --primary-coral: #FF5252;
+      --primary-sage: #4DB6AC;
+      --accent-yellow: #FFD54F;
+      --accent-purple: #B39DDB;
+      --accent-blue: #81D4FA;
+      --text-main: #2E282A;
+      --text-muted: #6B6265;
+      --line-color: #F0E6DE;
+      --border-radius-card: 26px;
+      --border-radius-pill: 999px;
+      --shadow-pop: 0 12px 30px rgba(255, 138, 128, 0.15), 0 4px 10px rgba(0,0,0,0.04);
+      --shadow-card: 0 10px 24px rgba(139, 115, 85, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Gowun Dodum', sans-serif, -apple-system, BlinkMacSystemFont;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px;
+      position: relative;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(#F5D6C6 1.3px, transparent 1.3px),
+        radial-gradient(#F5D6C6 1.3px, #FFFDF9 1.3px);
+      background-size: 26px 26px;
+      background-position: 0 0, 13px 13px;
+    }
+
+    /* 몽글몽글 다꾸 애니메이션 스티커 */
+    .floating-sticker {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.08));
+      transition: transform 0.3s ease;
+    }
+
+    .sticker-1 { top: 40px; left: 3%; font-size: 42px; animation: floatY 4s ease-in-out infinite; }
+    .sticker-2 { top: 220px; right: 4%; font-size: 38px; animation: rotateWiggle 6s ease-in-out infinite alternate; }
+    .sticker-3 { bottom: 180px; left: 4%; font-size: 44px; animation: floatY 5s ease-in-out infinite 1s; }
+    .sticker-4 { bottom: 90px; right: 5%; font-size: 40px; animation: pulseScale 4.5s ease-in-out infinite; }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-16px) rotate(6deg); }
+    }
+    @keyframes rotateWiggle {
+      0% { transform: rotate(-8deg) scale(1); }
+      50% { transform: rotate(10deg) scale(1.08); }
+      100% { transform: rotate(-8deg) scale(1); }
+    }
+    @keyframes pulseScale {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.15) translateY(-8px); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 헤더 카드 */
+    .header-card {
+      background: #FFFFFF;
+      border-radius: var(--border-radius-card);
+      padding: 34px 24px;
+      text-align: center;
+      position: relative;
+      box-shadow: var(--shadow-pop);
+      border: 3px dashed #FFCDD2;
+      margin-bottom: 24px;
+    }
+
+    .tape-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #FFE082, #FFCA28);
+      padding: 5px 32px;
+      font-size: 13.5px;
+      color: #5D4037;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .header-card h1 {
+      font-size: 27px;
+      color: #3E2723;
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+
+    .header-source-cite {
+      font-size: 13px;
+      color: #795548;
+      background: #FFF3E0;
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: var(--border-radius-pill);
+      margin-bottom: 12px;
+      font-weight: bold;
+      border: 1px solid #FFE0B2;
+    }
+
+    .header-card p {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    /* 닉네임 입력 박스 */
+    .nickname-bar-box {
+      margin-top: 18px;
+      background: #FFF8E1;
+      padding: 16px 20px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      border: 2px solid #FFE082;
+      box-shadow: 0 4px 12px rgba(255, 213, 79, 0.25);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nickname-bar-box label {
+      font-weight: bold;
+      font-size: 14.5px;
+      color: #6D4C41;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nickname-bar-box input {
+      padding: 10px 18px;
+      border-radius: var(--border-radius-pill);
+      border: 2px solid #FFCA28;
+      font-size: 15px;
+      outline: none;
+      width: 170px;
+      background: #FFFFFF;
+      font-weight: bold;
+      color: #3E2723;
+      transition: all 0.2s;
+    }
+
+    .nickname-bar-box input:focus {
+      border-color: #FF5252;
+      box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.2);
+    }
+
+    /* 진행도 바 */
+    .progress-box {
+      margin-bottom: 20px;
+      background: #FFFFFF;
+      padding: 14px 22px;
+      border-radius: var(--border-radius-pill);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid #FFE0B2;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 14px;
+      background: #F5ECE3;
+      border-radius: var(--border-radius-pill);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #FF8A80, #FFD54F, #4DB6AC);
+      border-radius: var(--border-radius-pill);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-text {
+      font-size: 14px;
+      font-weight: bold;
+      color: #FF5252;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* 상단 1회 고정 5점 척도 가이드 배너 */
+    .sticky-scale-header {
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border: 2px solid #FFAB91;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .scale-guide-label {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #D84315;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .scale-guide-list {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .scale-pill-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      background: #FFF3E0;
+      padding: 4px 10px;
+      border-radius: var(--border-radius-pill);
+      color: #6D4C41;
+      font-weight: bold;
+      border: 1px solid #FFE0B2;
+    }
+
+    .scale-pill-item span.score-num {
+      background: #FF5252;
+      color: white;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 11px;
+    }
+
+    /* 문항 리스트 */
+    .question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow-card);
+      border: 2px solid transparent;
+      transition: all 0.22s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .question-card:hover {
+      box-shadow: 0 10px 24px rgba(255, 138, 128, 0.18);
+      border-color: #FFCCBC;
+      transform: translateY(-2px);
+    }
+
+    .question-card.answered {
+      border-color: #80CBC4;
+      background: #F7FCFA;
+    }
+
+    .q-left {
+      flex: 1;
+    }
+
+    .q-badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      background-color: #FFF3E0;
+      color: #E65100;
+      font-weight: bold;
+    }
+
+    .q-title {
+      font-size: 15.5px;
+      line-height: 1.5;
+      color: #372A28;
+      word-break: keep-all;
+    }
+
+    .q-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .scale-select-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-num-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid #E0D4C8;
+      background: #FFF9F5;
+      color: #5D4037;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    }
+
+    .btn-num-circle:hover {
+      transform: scale(1.12);
+      border-color: #FF8A80;
+      background: #FFEBE9;
+      color: #FF5252;
+    }
+
+    .btn-num-circle.active {
+      background: linear-gradient(135deg, #FF5252, #FF8A80) !important;
+      border-color: #FF5252 !important;
+      color: #FFFFFF !important;
+      transform: scale(1.15);
+      box-shadow: 0 6px 14px rgba(255, 82, 82, 0.45);
+    }
+
+    /* 하단 제출 버튼 */
+    .submit-wrap {
+      text-align: center;
+      margin: 20px 0 35px;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #FF6F61 0%, #FF3D00 100%);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 17px 46px;
+      border: none;
+      border-radius: var(--border-radius-pill);
+      box-shadow: 0 10px 25px rgba(255, 61, 0, 0.35);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-submit:disabled {
+      background: #D7CCC8;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-submit:not(:disabled):hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 30px rgba(255, 61, 0, 0.45);
+    }
+
+    /* 솔루션 리포트 페이지 스타일 (컨설팅 페이퍼) */
+    #reportSection {
+      display: none;
+    }
+
+    .report-paper {
+      background: #FFFFFF;
+      border-radius: 30px;
+      box-shadow: 0 20px 45px rgba(183, 140, 115, 0.18);
+      border: 3px solid #FFE0B2;
+      padding: 42px 36px;
+      position: relative;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+
+    .report-paper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(90deg, #FF5252, #FFD54F, #4DB6AC, #B39DDB, #81D4FA);
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px dashed #FFCCBC;
+      padding-bottom: 22px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .personalized-hero {
+      background: linear-gradient(135deg, #FFF3E0, #FBE9E7);
+      border-radius: 18px;
+      padding: 8px 18px;
+      display: inline-block;
+      font-size: 14px;
+      color: #D84315;
+      font-weight: bold;
+      border: 1px dashed #FFAB91;
+      margin-bottom: 8px;
+    }
+
+    .report-title-area h2 {
+      font-size: 25px;
+      color: #3E2723;
+      margin-bottom: 4px;
+    }
+
+    .paper-citation-bar {
+      font-size: 12px;
+      color: #6D4C41;
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      padding: 6px 14px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    /* 컨설팅 매트릭스 도식화 (2x2 회복탄력성 매트릭스) */
+    .matrix-section {
+      background: #FFFBF5;
+      border: 2px solid #FFE0B2;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .matrix-title {
+      font-size: 16.5px;
+      font-weight: bold;
+      color: #4E342E;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+      position: relative;
+    }
+
+    .matrix-quadrant {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1.5px solid #EFEBE9;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .matrix-quadrant .quad-tag {
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .matrix-quadrant h5 {
+      font-size: 14px;
+      color: #3E2723;
+      margin-bottom: 4px;
+    }
+
+    .matrix-quadrant p {
+      font-size: 11.5px;
+      color: #795548;
+      line-height: 1.4;
+    }
+
+    .matrix-quadrant.user-current-pos {
+      border: 3px solid #FF5252 !important;
+      background: #FFF5F5 !important;
+      transform: scale(1.02);
+      box-shadow: 0 8px 22px rgba(255, 82, 82, 0.25);
+    }
+
+    .matrix-quadrant.user-current-pos::after {
+      content: "📍 YOU ARE HERE";
+      position: absolute;
+      top: -11px;
+      right: 14px;
+      background: #FF5252;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: var(--border-radius-pill);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* 종합 점수 및 유형 도식화 카드 */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 22px;
+      background: #FFF9F4;
+      border-radius: 22px;
+      padding: 26px;
+      border: 2px solid #FFE5D9;
+      margin-bottom: 32px;
+    }
+
+    .score-circle-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+      text-align: center;
+      border: 2px solid #FFE0B2;
+    }
+
+    .score-circle-card .score-label {
+      font-size: 13px;
+      color: #8D6E63;
+      margin-bottom: 4px;
+    }
+
+    .score-circle-card .total-score {
+      font-size: 48px;
+      font-weight: bold;
+      color: #FF5252;
+      line-height: 1.1;
+    }
+
+    .score-circle-card .max-score {
+      font-size: 13.5px;
+      color: #A1887F;
+    }
+
+    .type-badge-pill {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 6px 16px;
+      border-radius: var(--border-radius-pill);
+      background: #FFEBEE;
+      color: #C62828;
+    }
+
+    .opinion-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .opinion-box h4 {
+      font-size: 15.5px;
+      color: #4E342E;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .opinion-box p {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #5D4037;
+      word-break: keep-all;
+    }
+
+    /* 6대 마음 근육 차트 */
+    .section-title {
+      font-size: 18.5px;
+      color: #3E2723;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 5px solid #FF5252;
+      padding-left: 12px;
+    }
+
+    .domain-chart-container {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 34px;
+    }
+
+    .domain-row {
+      background: #FFFFFF;
+      border: 1.5px solid #FFE0B2;
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+    }
+
+    .domain-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .domain-name {
+      font-size: 14px;
+      font-weight: bold;
+      color: #4E342E;
+    }
+
+    .domain-status {
+      font-size: 11.5px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .domain-bar-bg {
+      height: 12px;
+      background: #F5ECE3;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .domain-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.6s ease;
+    }
+
+    .domain-desc {
+      font-size: 12.5px;
+      color: #795548;
+      line-height: 1.5;
+    }
+
+    /* 조직 및 리더십 연구 데이터 인포그래픽 */
+    .research-highlight-box {
+      background: linear-gradient(135deg, #E0F2F1, #E8F5E9);
+      border: 2px solid #80CBC4;
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 34px;
+    }
+
+    .research-title {
+      font-size: 15.5px;
+      font-weight: bold;
+      color: #004D40;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .stat-card {
+      background: #FFFFFF;
+      border: 1px solid #B2DFDB;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00796B;
+      margin-bottom: 4px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: #004D40;
+      line-height: 1.4;
+    }
+
+    .leader-quote-callout {
+      background: #FFFFFF;
+      border-left: 4px solid #00897B;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #37474F;
+      line-height: 1.6;
+    }
+
+    /* 5가지 실천 체크리스트 */
+    .checklist-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #FFFDF9;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1.5px dashed #FFCCBC;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .check-item:hover {
+      background: #FFF3E0;
+      border-color: #FF8A80;
+    }
+
+    .check-item input[type="checkbox"] {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #FFAB91;
+      border-radius: 7px;
+      margin-top: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      flex-shrink: 0;
+    }
+
+    .check-item input[type="checkbox"]:checked {
+      background-color: #4DB6AC;
+      border-color: #4DB6AC;
+    }
+
+    .check-item input[type="checkbox"]:checked::after {
+      content: "✔";
+      font-size: 13px;
+      color: white;
+    }
+
+    .check-item.done .check-title {
+      text-decoration: line-through;
+      color: #A1887F;
+    }
+
+    .check-text { flex: 1; }
+    .check-title { font-size: 14.5px; font-weight: bold; color: #4E342E; margin-bottom: 3px; }
+    .check-detail { font-size: 12.5px; color: #6D4C41; line-height: 1.5; }
+
+    /* 사용자 실천 다짐 입력 카드 */
+    .pledge-card {
+      background: #FFF8E1;
+      border: 2px solid #FFE082;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 34px;
+    }
+
+    .pledge-card h4 {
+      font-size: 15.5px;
+      color: #6D4C41;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pledge-card textarea {
+      width: 100%;
+      min-height: 75px;
+      border-radius: 14px;
+      border: 1.5px solid #FFD54F;
+      padding: 12px 16px;
+      font-size: 14px;
+      background: #FFFFFF;
+      color: #3E2723;
+      resize: vertical;
+      outline: none;
+      line-height: 1.5;
+    }
+
+    .pledge-card textarea:focus {
+      border-color: #FF5252;
+      box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.15);
+    }
+
+    /* 추천 영화 카드 */
+    .movie-card {
+      display: flex;
+      gap: 22px;
+      background: #FFFBF5;
+      border: 2px solid #FFE0B2;
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 34px;
+      align-items: center;
+    }
+
+    .movie-poster {
+      width: 135px;
+      height: 190px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      border: 3px solid #FFFFFF;
+    }
+
+    .movie-info { flex: 1; }
+    .movie-tag {
+      display: inline-block;
+      font-size: 11.5px;
+      padding: 3px 10px;
+      background: #FFE0B2;
+      color: #E65100;
+      border-radius: var(--border-radius-pill);
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    .movie-title { font-size: 18px; color: #3E2723; margin-bottom: 4px; font-weight: bold; }
+    .movie-director { font-size: 12.5px; color: #8D6E63; margin-bottom: 12px; }
+    .movie-quote {
+      font-size: 13px;
+      color: #4E342E;
+      font-style: italic;
+      background: #FFFFFF;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border-left: 3px solid #FF8A80;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .movie-insight { font-size: 12.5px; color: #6D4C41; line-height: 1.55; }
+
+    /* 오늘의 명언 카드 */
+    .quote-box {
+      background: linear-gradient(135deg, #FFF3E0, #FBE9E7);
+      border: 2px dashed #FFAB91;
+      border-radius: 20px;
+      padding: 26px;
+      text-align: center;
+      margin-bottom: 34px;
+    }
+    .quote-box .quote-icon { font-size: 26px; margin-bottom: 6px; display: block; }
+    .quote-box .quote-text { font-size: 16px; color: #4E342E; line-height: 1.7; margin-bottom: 10px; font-weight: bold; word-break: keep-all; }
+    .quote-box .quote-author { font-size: 13px; color: #8D6E63; }
+
+    /* 인사혁신처 바로가기 공식 배너 */
+    .mpm-banner-card {
+      background: linear-gradient(135deg, #1A237E, #283593);
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 20px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(26, 35, 126, 0.25);
+      margin-bottom: 30px;
+      transition: all 0.25s ease;
+    }
+
+    .mpm-banner-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 28px rgba(26, 35, 126, 0.35);
+    }
+
+    .mpm-banner-content h5 {
+      font-size: 16px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #FFD54F;
+    }
+
+    .mpm-banner-content p {
+      font-size: 12.5px;
+      color: #E8EAF6;
+    }
+
+    .btn-mpm-go {
+      background: #FFFFFF;
+      color: #1A237E;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 9px 18px;
+      border-radius: var(--border-radius-pill);
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* 액션 버튼 바 */
+    .report-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: var(--border-radius-pill);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+
+    .btn-pdf {
+      background: #3E2723;
+      color: white;
+      box-shadow: 0 6px 16px rgba(62, 39, 35, 0.3);
+    }
+
+    .btn-pdf:hover { background: #271815; transform: translateY(-2px); }
+
+    .btn-retry {
+      background: #FFFFFF;
+      color: #5D4037;
+      border: 2px solid #D7CCC8;
+    }
+
+    .btn-retry:hover { background: #FAF7F2; transform: translateY(-2px); }
+
+    /* 푸터 */
+    footer {
+      text-align: center;
+      margin-top: auto;
+      padding: 24px 0 10px;
+      font-size: 13px;
+      color: #8D6E63;
+    }
+
+    /* 반응형 레이아웃 */
+    @media (max-width: 768px) {
+      .floating-sticker { display: none; }
+      .sticky-scale-header { flex-direction: column; align-items: flex-start; }
+      .scale-guide-list { flex-wrap: wrap; gap: 6px; }
+      .question-card { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .q-right { width: 100%; justify-content: space-between; }
+      .scale-select-group { width: 100%; justify-content: space-between; }
+      .btn-num-circle { width: 48px; height: 48px; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .matrix-grid { grid-template-columns: 1fr; }
+      .movie-card { flex-direction: column; text-align: center; }
+      .mpm-banner-card { flex-direction: column; text-align: center; }
+      .report-paper { padding: 26px 18px; }
+      .header-card h1 { font-size: 22px; }
+    }
+
+    /* 인쇄 및 PDF 저장 모드 */
+    @media print {
+      body { background: #FFFFFF !important; padding: 0 !important; background-image: none !important; }
+      .floating-sticker, .header-card, .progress-box, .sticky-scale-header, .question-list, .submit-wrap, .report-actions, footer {
+        display: none !important;
+      }
+      #reportSection { display: block !important; }
+      .report-paper { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 다꾸 스타일 배경 스티커 (부드러운 모션 효과) -->
+  <div class="floating-sticker sticker-1">🌱</div>
+  <div class="floating-sticker sticker-2">🎀</div>
+  <div class="floating-sticker sticker-3">⭐</div>
+  <div class="floating-sticker sticker-4">💖</div>
+
+  <div class="container">
+    <!-- 헤더 영역 -->
+    <header class="header-card" id="mainHeader">
+      <div class="tape-badge">MPM RESILIENCE TEST</div>
+      <h1>인사혁신처 회복탄력성 자가진단</h1>
+      <div class="header-source-cite">📖 출처: 게일 가젤, 《하버드 회복탄력성 수업》(현대지성)</div>
+      <p>공직 수행 중 마주하는 과중한 직무 스트레스와 돌발 변수 속에서,<br>하버드 메디컬 스쿨 연구 기반 16문항을 통해 나의 회복탄력성 지수를 점검해보세요.</p>
+      
+      <!-- 닉네임 입력란 -->
+      <div class="nickname-bar-box">
+        <label for="userNameInput">🏷️ 참여자 닉네임(호칭) :</label>
+        <input type="text" id="userNameInput" placeholder="예: 솔리스 주무관" maxlength="10" value="인사혁신 리더">
+      </div>
+    </header>
+
+    <!-- 진단 설문 영역 -->
+    <main id="surveySection">
+      <!-- 진행률 바 -->
+      <div class="progress-box">
+        <span style="font-size: 13px; color: #5D4037; font-weight: bold;">진행도</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 16</div>
+      </div>
+
+      <!-- 상단 1회 고정 5점 척도 안내 바 -->
+      <div class="sticky-scale-header">
+        <div class="scale-guide-label">📌 5점 척도 기준 안내 :</div>
+        <div class="scale-guide-list">
+          <div class="scale-pill-item"><span class="score-num">1</span> 전혀 그렇지 않다</div>
+          <div class="scale-pill-item"><span class="score-num">2</span> 그렇지 않다</div>
+          <div class="scale-pill-item"><span class="score-num">3</span> 보통이다</div>
+          <div class="scale-pill-item"><span class="score-num">4</span> 그렇다</div>
+          <div class="scale-pill-item"><span class="score-num">5</span> 매우 그렇다</div>
+        </div>
+      </div>
+
+      <!-- 질문 카드 리스트 (JS로 동적 생성) -->
+      <div class="question-list" id="questionList"></div>
+
+      <!-- 제출 버튼 -->
+      <div class="submit-wrap">
+        <button class="btn-submit" id="btnSubmit" disabled onclick="calculateAndShowReport()">
+          나의 개인 맞춤 리포트 확인하기 ✨
+        </button>
+      </div>
+    </main>
+
+    <!-- 결과 리포트 섹션 -->
+    <section id="reportSection">
+      <div class="report-paper">
+        <!-- 리포트 헤더 -->
+        <div class="report-header">
+          <div class="report-title-area">
+            <div class="personalized-hero">
+              👤 <span id="reportUserName">인사혁신 리더</span> 님의 회복탄력성 진단 페이퍼
+            </div>
+            <h2>인사혁신처 회복탄력성 컨설팅 솔루션 리포트</h2>
+            <div class="paper-citation-bar">
+              📚 <strong>학술 척도 출처:</strong> 게일 가젤(Gail Gazelle, M.D.), 《하버드 회복탄력성 수업》(현대지성)
+            </div>
+          </div>
+          <div class="doc-meta">
+            <div><strong>문서등록:</strong> MPM-RES-2026-REPORT</div>
+            <div><strong>진단일자:</strong> <span id="reportDate"></span></div>
+            <div><strong>분석기관:</strong> SOLIS 심리조직 컨설팅연구소</div>
+          </div>
+        </div>
+
+        <!-- 1. 컨설팅 매트릭스 도식화 (2x2 Matrix) -->
+        <div class="matrix-section">
+          <div class="matrix-title">
+            <span>🧭</span> 하버드 회복탄력성 4분면 진단 매트릭스
+          </div>
+          <div class="matrix-grid">
+            <div class="matrix-quadrant" id="matrixLow">
+              <span class="quadtag" style="background:#FFEBEE; color:#C62828;">16~37점</span>
+              <h5>마음 충전 분면 (Rest & Recharge)</h5>
+              <p>심리적 소진 위험이 높으며, 통제 불가능한 변수 분리와 자기돌봄이 최우선인 상태입니다.</p>
+            </div>
+            <div class="matrix-quadrant" id="matrixMid">
+              <span class="quad-tag" style="background:#FFF8E1; color:#F57F17;">38~59점</span>
+              <h5>성장 잠재 분면 (Flexible Growth)</h5>
+              <p>기본적인 스트레스 대응력을 갖추고 있으며, 6대 마음 근육 훈련으로 도약 가능한 상태입니다.</p>
+            </div>
+            <div class="matrix-quadrant" id="matrixHigh">
+              <span class="quad-tag" style="background:#E8F5E9; color:#2E7D32;">60~80점</span>
+              <h5>견고한 번영 분면 (Flourishing Anchor)</h5>
+              <p>높은 효능감과 원만한 관계를 유지하며, 조직에 긍정 에너지를 전파하는 든든한 상태입니다.</p>
+            </div>
+            <div class="matrix-quadrant" style="background: #F9FBE7; border: 1.5px dashed #CDDC39;">
+              <span class="quad-tag" style="background:#EAF4EE; color:#33691E;">목표 지향</span>
+              <h5>회복탄력적 리더십 (Resilient Leader)</h5>
+              <p>번아웃 위험을 50% 줄이고 팀의 성과를 3배 견인하는 '아낌없이 주는 나무'의 경지입니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 종합 점수 및 유형 도식화 카드 -->
+        <div class="summary-grid">
+          <div class="score-circle-card">
+            <div class="score-label">종합 회복탄력성 지수</div>
+            <div class="total-score" id="resTotalScore">0</div>
+            <div class="max-score">/ 80점 만점</div>
+            <div class="type-badge-pill" id="resTypeBadge">유형 산출 중</div>
+          </div>
+          <div class="opinion-box">
+            <h4>💡 <span id="opinionUserSpan">참여자</span> 님을 위한 하버드 맞춤 소견</h4>
+            <p id="resOpinionText">결과 소견이 여기에 표시됩니다.</p>
+          </div>
+        </div>
+
+        <!-- 3. 하버드 6가지 마음 근육 핵심 지표 차트 -->
+        <h3 class="section-title">📊 6가지 마음 근육 지표 분석</h3>
+        <div class="domain-chart-container" id="domainChartBox"></div>
+
+        <!-- 4. 공직 조직 및 리더십 연구 데이터 인포그래픽 -->
+        <div class="research-highlight-box">
+          <div class="research-title">
+            <span>🏛️</span> 연구가 증명하는 '회복탄력성이 있는 조직과 리더'
+          </div>
+          <div class="stat-cards-grid">
+            <div class="stat-card">
+              <div class="stat-val">+42%</div>
+              <div class="stat-desc">직원 회복탄력성 최고 기업의<br><strong>자산수익률 상승폭</strong></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">3.7배 / 3.2배</div>
+              <div class="stat-desc">연간 자기자본수익률 3.7배 &<br><strong>연간 성장률 3.2배 상승</strong></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">3배 ↑ / 50% ↓</div>
+              <div class="stat-desc">회복탄력적 리더 팀원의 회복력 3배↑<br><strong>번아웃 위험 50% 감소</strong></div>
+            </div>
+          </div>
+          <div class="leader-quote-callout">
+            💬 <em>"회복탄력성이 있는 리더는 조직의 '아낌없이 주는 나무'가 됩니다. 연구 결과를 믿기 어렵다면, 마지막으로 함께 일했던 상사 몇 명을 떠올려 보세요. 리더의 여유와 단단함이 팀 전체의 안정감에 얼마나 결정적인지 알 수 있습니다."</em>
+          </div>
+        </div>
+
+        <!-- 5. 5가지 실천 체크리스트 -->
+        <h3 class="section-title">✅ <span id="checklistUserSpan">참여자</span> 님의 맞춤 실천 체크리스트</h3>
+        <p style="font-size: 13px; color: #6D4C41; margin-bottom: 14px;">다이어리에 스티커를 붙이듯, 오늘부터 실천 가능한 항목을 하나씩 체크해보세요.</p>
+        <div class="checklist-wrap" id="checklistWrap"></div>
+
+        <!-- 6. 사용자 실천 다짐 입력란 -->
+        <div class="pledge-card">
+          <h4>✍️ <span id="pledgeUserSpan">참여자</span> 님의 '오늘의 회복 다짐 한마디'</h4>
+          <p style="font-size: 13px; color: #795548; margin-bottom: 10px;">위 솔루션 중 이번 주 공직 일상에서 내가 꼭 실천해볼 한 가지 행동을 스스로 적어보세요.</p>
+          <textarea id="userPledgeInput" placeholder="예: 무리한 일정 대신 점심 산책 15분을 지키고, 통제할 수 없는 민원은 걱정하지 않겠습니다."></textarea>
+        </div>
+
+        <!-- 7. 추천 명작 영화 -->
+        <h3 class="section-title">🎬 마음 치유를 위한 맞춤 추천 명작 영화</h3>
+        <div class="movie-card" id="movieCard"></div>
+
+        <!-- 8. 오늘의 명언 -->
+        <h3 class="section-title">💌 마음에 새기는 오늘의 한 줄 명언</h3>
+        <div class="quote-box">
+          <span class="quote-icon">🌸</span>
+          <div class="quote-text" id="quoteText"></div>
+          <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+
+        <!-- 9. 인사혁신처 공식 홈페이지 이동 배너 -->
+        <a href="https://www.mpm.go.kr" target="_blank" rel="noopener noreferrer" class="mpm-banner-card">
+          <div class="mpm-banner-content">
+            <h5>🏛️ 대한민국 인사혁신처 공식 홈페이지 방문하기</h5>
+            <p>공직 가치 확립과 공무원 마음건강 지원 정책에 대한 더 많은 정보를 확인해보세요.</p>
+          </div>
+          <div class="btn-mpm-go">홈페이지 바로가기 ➔</div>
+        </a>
+
+        <!-- 액션 버튼 -->
+        <div class="report-actions">
+          <button class="btn-action btn-pdf" onclick="window.print()">
+            📥 결과 리포트 PDF 저장 / 인쇄
+          </button>
+          <button class="btn-action btn-retry" onclick="resetSurvey()">
+            🔄 다시 진단하기
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+      © 2026 SOLIS. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script>
+    // 16문항 데이터
+    const questions = [
+      { id: 1, domain: "efficacy", domainName: "자기효능감", emoji: "🎯", text: "새로운 일이 주어져도 잘 해낼 자신이 있다." },
+      { id: 2, domain: "flexibility", domainName: "유연성과 성장", emoji: "🔄", text: "실패를 통해서도 배우고 다음에 접근 방식을 바꾼다." },
+      { id: 3, domain: "calm", domainName: "마음의 평정", emoji: "🧘‍♂️", text: "일이 계획대로 진행되지 않아도 불안해 하지 않는다." },
+      { id: 4, domain: "relation", domainName: "연대와 소통", emoji: "🤝", text: "내 주변에는 고민을 터놓을 친구나 동료가 있다." },
+      { id: 5, domain: "selfaccept", domainName: "자기수용", emoji: "🤍", text: "어떤 상황이든 나 자신을 용납한다." },
+      { id: 6, domain: "efficacy", domainName: "끈기와 실행력", emoji: "🏃‍♂️", text: "한번 시작한 일은 끈기 있게 밀고 나간다." },
+      { id: 7, domain: "calm", domainName: "스트레스 조절", emoji: "🌿", text: "스트레스를 해소하는 나만의 방법이 있다." },
+      { id: 8, domain: "calm", domainName: "자기돌봄", emoji: "☕", text: "나만을 위한 시간을 따로 갖는다." },
+      { id: 9, domain: "positivity", domainName: "낙관성", emoji: "☀️", text: "미래에 대해 긍정적으로 생각한다." },
+      { id: 10, domain: "flexibility", domainName: "경계선 설정", emoji: "🛡️", text: "내가 통제할 수 없는 문제들은 걱정하지 않는다." },
+      { id: 11, domain: "relation", domainName: "도움요청 역량", emoji: "🙋‍♂️", text: "도움을 청하는 것은 약점이라고 생각하지 않는다." },
+      { id: 12, domain: "flexibility", domainName: "인지적 유연성", emoji: "💡", text: "삶에 변화가 생기면 그에 맞게 생각을 바꾸려 한다." },
+      { id: 13, domain: "calm", domainName: "감정 조절력", emoji: "⚖️", text: "감정적인 문제가 대인관계나 일을 방해하지 않는다." },
+      { id: 14, domain: "positivity", domainName: "감사하기", emoji: "🙏", text: "감사해야 할 일이 많다." },
+      { id: 15, domain: "positivity", domainName: "수용적 태도", emoji: "🌱", text: "나는 평소에 '아니오'보다 '예'라고 자주 말한다." },
+      { id: 16, domain: "selfaccept", domainName: "자존감과 유대", emoji: "💖", text: "나는 언제나 사랑받는 사람이다." }
+    ];
+
+    // 솔루션 데이터
+    const solutionData = {
+      low: {
+        badge: "🌱 16~37점 : 작은 회복 루틴이 필요한 '마음 충전군'",
+        color: "#D32F2F",
+        bgColor: "#FFEBEE",
+        matrixId: "matrixLow",
+        opinion: "회복탄력성이 비교적 낮은 편입니다. 현재 자신감이 다소 떨어져 있거나 미래를 비관할 수도 있습니다. 스트레스를 받아도 마땅히 해소할 방법이 없고, 통제 불가능한 일인데도 내 방식대로만 억지로 해결하려고 애쓰는 편일 수 있습니다. 지금은 자책을 멈추고 회복탄력성 회복을 위해 작은 일상적 변화부터 차근차근 시작해보세요.",
+        movie: {
+          title: "인턴 (The Intern, 2015)",
+          director: "낸시 마이어스 감독 | 로버트 드 니로, 앤 해서웨이",
+          tag: "명작 영화 테라피 : 번아웃 회복과 세대 공감",
+          poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80",
+          quote: "손수건을 갖고 다니는 진짜 이유는, 상대방에게 빌려주기 위해서야.",
+          insight: "업무에 치여 숨 쉴 틈 없이 탈진한 주인공이 연륜 있는 시니어 인턴의 따뜻한 여유를 통해 다시 삶의 속도를 조율해가는 명작입니다. 공직 업무로 지친 내 마음에 안전한 쉼표를 찍어줍니다."
+        },
+        actions: [
+          { title: "[통제 분리] 내가 바꿀 수 없는 외생 변수 내려놓기", detail: "통제 불가능한 인사·민원 변수는 걱정을 멈추고, 오늘 내가 당장 할 수 있는 최소 단위 업무에만 집중합니다." },
+          { title: "[감정 일시정지] 돌발 상황 시 '3초 호흡 그라운딩' 실천하기", detail: "불안이나 화가 치밀 때 3초간 깊게 호흡하며 감정과 즉각적 반응 사이에 안전한 완충 공간을 확보합니다." },
+          { title: "[연대와 지지] 도움을 청하는 것은 약점이 아님을 인정하기", detail: "혼자 끙끙 앓기보다 믿을 수 있는 선후배 동료에게 솔직하게 업무적 조언이나 지원을 요청해봅니다." },
+          { title: "[자기돌봄 루틴] 퇴근 후 오직 '나만을 위한 30분' 확보", detail: "스마트폰과 업무 메신저를 끄고 온전히 나만의 휴식과 편안한 쉼을 보장하는 시간을 가집니다." },
+          { title: "[작은 감사] 잠들기 전 '오늘 감사했던 일 1가지' 기록", detail: "소소한 점심 산책, 동료의 건넨 따뜻한 말 등 일상 속 작은 빛을 다이어리에 기록하며 뇌의 부정 편향을 줄입니다." }
+        ],
+        quote: {
+          text: "때로는 멈춰 서서 깊게 숨을 고르는 것 자체가, 가장 멀리 나아가기 위한 단단한 준비가 된다.",
+          author: "— 로맹 롤랑 (Romain Rolland)"
+        }
+      },
+      mid: {
+        badge: "🌿 38~59점 : 개선과 성장의 여지가 충분한 '잠재적 버들군'",
+        color: "#E65100",
+        bgColor: "#FFF3E0",
+        matrixId: "matrixMid",
+        opinion: "회복탄력성이 높지는 않지만 개선의 여지는 충분합니다. 아마도 내면의 힘을 더욱 키워야 할 필요가 있을 수 있습니다. 하버드가 제안하는 마음 근육들을 강화하기 위해 의식적으로 훈련한다면 일상의 스트레스를 훨씬 유연하게 흡수하고 회복탄력성을 큰 폭으로 높일 수 있습니다.",
+        movie: {
+          title: "쇼생크 탈출 (The Shawshank Redemption, 1994)",
+          director: "프랭크 다라본트 감독 | 팀 로빈스, 모건 프리먼",
+          tag: "명작 영화 테라피 : 희망의 끈과 끈기 있는 회복",
+          poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80",
+          quote: "기억해요 레드, 희망은 좋은 거예요. 어쩌면 가장 좋은 걸지도 몰라요. 좋은 것은 절대 죽지 않아요.",
+          insight: "가혹한 시련과 긴 인내의 시간 속에서도 품위를 잃지 않고 작은 조각칼로 꾸준히 자유를 빚어낸 앤디의 이야기입니다. 지치지 않고 마음 근육을 훈련해나가는 끈기의 힘을 선사합니다."
+        },
+        actions: [
+          { title: "[실패의 재정의] 실수를 '성장을 위한 데이터'로 전환", detail: "업무 지적이나 실패에 낙담하지 않고, '다음에 접근 방식을 어떻게 개선할 것인가'로 인지적 방향을 틉니다." },
+          { title: "[스트레스 루틴] 나만의 검증된 스트레스 해소법 2가지 확립", detail: "가벼운 유산소 운동, 독서, 취미 등 스트레스가 누적되기 전 자동으로 작동하는 해소 루틴을 만듭니다." },
+          { title: "[사고 유연성] 삶의 변화가 생길 때 고집 대신 적응력 발휘", detail: "새로운 제도나 환경 변화를 맞닥뜨렸을 때 방어적 태도 대신 상황에 맞추어 내 사고의 각도를 넓힙니다." },
+          { title: "[감정 경계선] 사적 감정이 공적 업무를 침범하지 않게 분리", detail: "불편한 감정이 일어났을 때 잠시 산책하며 감정을 털어내고, 객관적인 실무 모드로 복귀하는 훈련을 합니다." },
+          { title: "[긍정적 수용] 무조건적인 거절 대신 열린 '예(Yes)'의 태도 실험", detail: "새로운 제안이나 기회가 올 때 방어적으로 '아니오'를 외치기보다 배움의 기회로 바라봅니다." }
+        ],
+        quote: {
+          text: "바람이 불지 않을 때 바람개비를 돌리는 유일한 방법은, 내가 앞으로 달려가는 것이다.",
+          author: "— 데일 카네기 (Dale Carnegie)"
+        }
+      },
+      high: {
+        badge: "🌳 60~80점 : 단단하고 원만한 '우수 회복탄력군'",
+        color: "#2E7D32",
+        bgColor: "#E8F5E9",
+        matrixId: "matrixHigh",
+        opinion: "회복탄력성이 비교적 높은 편입니다. 당신은 스트레스를 잘 해소하고 사고방식이 유연하며 대인관계가 원만한 사람입니다. 분명한 목표를 가지고 있고 긍정적이며 어떤 도전도 기꺼이 받아들입니다. 조직 내에서 동료들에게 심리적 안전감을 선물하는 훌륭한 회복탄력성 롤모델입니다.",
+        movie: {
+          title: "죽은 시인의 사회 (Dead Poets Society, 1989)",
+          director: "피터 위어 감독 | 로빈 윌리엄스",
+          tag: "명작 영화 테라피 : 공직 소명감과 긍정적 영향력",
+          poster: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80",
+          quote: "카르페 디엠(Carpe Diem), 현재를 잡아라. 너희들의 삶을 특별하게 만들어라.",
+          insight: "정형화된 규율 속에서도 청년들에게 주체적인 삶의 가치와 따뜻한 용기를 불어넣은 키팅 선생의 명작입니다. 탁월한 회복탄력성을 바탕으로 조직 전체에 선한 영향력을 확장하는 리더십을 보여줍니다."
+        },
+        actions: [
+          { title: "[리더십 확장] 흔들리는 동료에게 '아낌없이 주는 나무' 되어주기", detail: "번아웃에 취약한 후배나 동료의 이야기를 경청하고 정서적 지지대를 제공하여 팀 회복력을 견인합니다." },
+          { title: "[초심 유지] 공직 가치와 내면의 소명감 주기적 반추", detail: "높은 효능감에 안주하지 않고 내가 수행하는 공직 업무의 본질적 의미와 사회적 기여를 되새깁니다." },
+          { title: "[완벽주의 점검] 나 자신을 너그럽게 품는 자기자비(Self-Compassion)", detail: "언제나 강해야 한다는 강박을 내려놓고, 어떤 돌발 상황에서도 나 자신을 온전히 용납하는 품을 유지합니다." },
+          { title: "[건강한 활력망] 조직 내외의 건강한 소통 네트워크 지속 가꾸기", detail: "서로에게 긍정 에너지를 북돋아 줄 수 있는 건강한 교류와 협업 문화를 지속적으로 넓혀나갑니다." },
+          { title: "[신경가소성 유지] 새로운 영역에 도전하며 지속적인 뇌 근육 단련", detail: "익숙한 업무 패턴을 넘어 새로운 시각의 학문, 취미, 프로젝트에 도전하며 유연성을 평생 자산으로 만듭니다." }
+        ],
+        quote: {
+          text: "산을 움직이려 하는 이는 작은 돌을 들어내는 일부터 시작한다.",
+          author: "— 공자 (Confucius)"
+        }
+      }
+    };
+
+    const userAnswers = {};
+
+    // 질문 목록 렌더링 (각 문항별 텍스트 중복 없이 1~5 원형 버튼만 제공)
+    function renderQuestions() {
+      const container = document.getElementById("questionList");
+      if (!container) return;
+      container.innerHTML = "";
+
+      questions.forEach((q) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.id = "qCard_" + q.id;
+
+        let scaleButtonsHtml = "";
+        for (let score = 1; score <= 5; score++) {
+          scaleButtonsHtml += 
+            '<button type="button" class="btn-num-circle" data-qid="' + q.id + '" data-score="' + score + '" onclick="selectScore(' + q.id + ', ' + score + ')">' +
+              score +
+            '</button>';
+        }
+
+        card.innerHTML = 
+          '<div class="q-left">' +
+            '<span class="q-badge">' + q.emoji + ' 문항 ' + q.id + ' | ' + q.domainName + '</span>' +
+            '<div class="q-title">' + q.id + '. ' + q.text + '</div>' +
+          '</div>' +
+          '<div class="q-right">' +
+            '<div class="scale-select-group">' +
+              scaleButtonsHtml +
+            '</div>' +
+          '</div>';
+
+        container.appendChild(card);
+      });
+    }
+
+    // 점수 선택 처리
+    function selectScore(qId, score) {
+      userAnswers[qId] = score;
+
+      const card = document.getElementById("qCard_" + qId);
+      if (card) {
+        card.classList.add("answered");
+        const buttons = card.querySelectorAll(".btn-num-circle");
+        buttons.forEach((btn) => {
+          if (parseInt(btn.getAttribute("data-score")) === score) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        });
+      }
+
+      updateProgress();
+    }
+
+    // 진행률 갱신
+    function updateProgress() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const totalCount = questions.length;
+      const percent = (answeredCount / totalCount) * 100;
+
+      const fill = document.getElementById("progressFill");
+      const txt = document.getElementById("progressText");
+      const btn = document.getElementById("btnSubmit");
+
+      if (fill) fill.style.width = percent + "%";
+      if (txt) txt.textContent = answeredCount + " / " + totalCount;
+      if (btn) btn.disabled = (answeredCount !== totalCount);
+    }
+
+    // 리포트 계산 및 렌더링
+    function calculateAndShowReport() {
+      let totalScore = 0;
+      const domainScores = {
+        efficacy: { sum: 0, count: 0 },
+        flexibility: { sum: 0, count: 0 },
+        calm: { sum: 0, count: 0 },
+        relation: { sum: 0, count: 0 },
+        positivity: { sum: 0, count: 0 },
+        selfaccept: { sum: 0, count: 0 }
+      };
+
+      questions.forEach((q) => {
+        const s = userAnswers[q.id] || 0;
+        totalScore += s;
+        if (domainScores[q.domain]) {
+          domainScores[q.domain].sum += s;
+          domainScores[q.domain].count += 1;
+        }
+      });
+
+      // 3구간 매핑 (16~37, 38~59, 60~80)
+      let typeKey = "mid";
+      if (totalScore <= 37) {
+        typeKey = "low";
+      } else if (totalScore >= 60) {
+        typeKey = "high";
+      }
+
+      const sol = solutionData[typeKey];
+
+      // 닉네임 개인화 반영
+      const userNick = (document.getElementById("userNameInput").value || "").trim() || "인사혁신 리더";
+      document.getElementById("reportUserName").textContent = userNick;
+      document.getElementById("opinionUserSpan").textContent = userNick;
+      document.getElementById("checklistUserSpan").textContent = userNick;
+      document.getElementById("pledgeUserSpan").textContent = userNick;
+
+      // 날짜 세팅
+      const now = new Date();
+      const dateStr = now.getFullYear() + "." + 
+                      String(now.getMonth() + 1).padStart(2, '0') + "." + 
+                      String(now.getDate()).padStart(2, '0');
+      document.getElementById("reportDate").textContent = dateStr;
+
+      // 점수 및 유형
+      document.getElementById("resTotalScore").textContent = totalScore;
+      const badgeElem = document.getElementById("resTypeBadge");
+      badgeElem.textContent = sol.badge;
+      badgeElem.style.color = sol.color;
+      badgeElem.style.backgroundColor = sol.bgColor;
+
+      document.getElementById("resOpinionText").textContent = sol.opinion;
+
+      // 매트릭스 활성화 위치 설정
+      document.querySelectorAll(".matrix-quadrant").forEach(el => el.classList.remove("user-current-pos"));
+      const targetQuad = document.getElementById(sol.matrixId);
+      if (targetQuad) targetQuad.classList.add("user-current-pos");
+
+      // 차트, 체크리스트, 영화, 명언 렌더링
+      renderDomainCharts(domainScores);
+      renderChecklist(sol.actions);
+      renderMovie(sol.movie);
+
+      document.getElementById("quoteText").textContent = '"' + sol.quote.text + '"';
+      document.getElementById("quoteAuthor").textContent = sol.quote.author;
+
+      // 화면 전환
+      document.getElementById("surveySection").style.display = "none";
+      document.getElementById("mainHeader").style.display = "none";
+      document.getElementById("reportSection").style.display = "block";
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // 6대 마음 근육 차트
+    function renderDomainCharts(domainScores) {
+      const container = document.getElementById("domainChartBox");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const domainMeta = [
+        { key: "efficacy", name: "자기효능감 & 끈기 (Efficacy)", icon: "🎯", color: "#FF8A80", desc: "도전적인 과업 앞에서의 자신감과 포기하지 않고 완수하는 추진력" },
+        { key: "flexibility", name: "인지적 유연성 & 경계선 (Flexibility)", icon: "🔄", color: "#4DB6AC", desc: "실패에서 배우는 태도, 통제 불가능한 변수를 분리해내는 유연함" },
+        { key: "calm", name: "마음의 평정 & 스트레스 조절 (Calmness)", icon: "🧘‍♂️", color: "#B39DDB", desc: "돌발 상황에서 동요하지 않고 나만의 쉼과 감정 평정을 유지하는 힘" },
+        { key: "relation", name: "연대와 도움요청 역량 (Connection)", icon: "🤝", color: "#FFD54F", desc: "조직 내 터놓을 동료 확보 및 도움 청하기를 주저하지 않는 건강한 연결감" },
+        { key: "positivity", name: "낙관성과 감사 (Positivity)", icon: "☀️", color: "#FFAB91", desc: "미래를 밝게 조망하고 일상 속 감사할 거리를 적극적으로 발견하는 힘" },
+        { key: "selfaccept", name: "자기수용 & 자존감 (Self-Compassion)", icon: "🤍", color: "#81D4FA", desc: "어떤 실패와 난관 속에서도 나 자신을 너그럽게 품고 수용하는 자애심" }
+      ];
+
+      domainMeta.forEach((dm) => {
+        const item = domainScores[dm.key] || { sum: 0, count: 1 };
+        const maxScore = item.count * 5;
+        const currentScore = item.sum;
+        const percent = Math.min(100, Math.round((currentScore / maxScore) * 100));
+
+        let status = "보통 🟡";
+        let statusStyle = "background: #FFF8E1; color: #E65100;";
+        if (percent >= 80) {
+          status = "강점 근육 🌟";
+          statusStyle = "background: #E8F5E9; color: #2E7D32;";
+        } else if (percent < 50) {
+          status = "훈련 필요 ⚠️";
+          statusStyle = "background: #FFEBEE; color: #C62828;";
+        }
+
+        const row = document.createElement("div");
+        row.className = "domain-row";
+        row.innerHTML = 
+          '<div class="domain-header">' +
+            '<span class="domain-name">' + dm.icon + ' ' + dm.name + ' : <strong>' + currentScore + '점</strong> / ' + maxScore + '점</span>' +
+            '<span class="domain-status" style="' + statusStyle + '">' + status + '</span>' +
+          '</div>' +
+          '<div class="domain-bar-bg">' +
+            '<div class="domain-bar-fill" style="width: ' + percent + '%; background-color: ' + dm.color + ';"></div>' +
+          '</div>' +
+          '<div class="domain-desc">' + dm.desc + '</div>';
+        container.appendChild(row);
+      });
+    }
+
+    // 체크리스트 렌더링
+    function renderChecklist(actions) {
+      const container = document.getElementById("checklistWrap");
+      if (!container) return;
+      container.innerHTML = "";
+
+      actions.forEach((act, idx) => {
+        const item = document.createElement("div");
+        item.className = "check-item";
+        item.onclick = function(e) {
+          const cb = item.querySelector("input");
+          if (e.target.tagName !== "INPUT") {
+            cb.checked = !cb.checked;
+          }
+          item.classList.toggle("done", cb.checked);
+        };
+
+        item.innerHTML = 
+          '<input type="checkbox" id="chk_' + idx + '">' +
+          '<div class="check-text">' +
+            '<div class="check-title">' + act.title + '</div>' +
+            '<div class="check-detail">' + act.detail + '</div>' +
+          '</div>';
+        container.appendChild(item);
+      });
+    }
+
+    // 추천 영화 렌더링
+    function renderMovie(movie) {
+      const container = document.getElementById("movieCard");
+      if (!container) return;
+      container.innerHTML = 
+        '<img src="' + movie.poster + '" alt="' + movie.title + '" class="movie-poster" onerror="this.src=\'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80\'">' +
+        '<div class="movie-info">' +
+          '<span class="movie-tag">' + movie.tag + '</span>' +
+          '<div class="movie-title">' + movie.title + '</div>' +
+          '<div class="movie-director">' + movie.director + '</div>' +
+          '<div class="movie-quote">"' + movie.quote + '"</div>' +
+          '<div class="movie-insight">' + movie.insight + '</div>' +
+        '</div>';
+    }
+
+    // 다시 진단하기
+    function resetSurvey() {
+      for (const k in userAnswers) delete userAnswers[k];
+      document.querySelectorAll(".question-card").forEach((c) => {
+        c.classList.remove("answered");
+        c.querySelectorAll(".btn-num-circle").forEach((b) => b.classList.remove("active"));
+      });
+
+      updateProgress();
+      document.getElementById("reportSection").style.display = "none";
+      document.getElementById("mainHeader").style.display = "block";
+      document.getElementById("surveySection").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // 시작
+    window.addEventListener("DOMContentLoaded", () => {
+      renderQuestions();
+      updateProgress();
+    });
+  </script>
+</body>
+</html>
